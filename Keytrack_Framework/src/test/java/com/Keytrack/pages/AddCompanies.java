@@ -3,8 +3,11 @@ package com.Keytrack.pages;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
 import junit.framework.Assert;
@@ -23,12 +26,13 @@ WebDriver driver;
 	@FindBy(id  = "free-solo-2-demo") WebElement Companies_Searchbox;
 	@FindBy(xpath = "//body/div[@id='root']/div/main/div/div/div/div/div/button/span[1]") WebElement Add_Button;
 	@FindBy(xpath = "//*[contains(text(),'Company successfully created!')]") WebElement Toast_Message;
+	@FindBy(xpath  = "//span[contains(text(),'Companies')]") WebElement Companies_dropdown;
 	
 	public void AddingCompany() throws InterruptedException
 	{
 	  Add_Companies_Button.click();
 	  
-	  Companies_Searchbox.sendKeys("Android");
+	  Companies_Searchbox.sendKeys("Zoom");
 	  
 	  Thread.sleep(3000);
 	  
@@ -43,7 +47,7 @@ WebDriver driver;
   	
       System.out.println(innerhtml);
       
-      if (innerhtml.contentEquals("Android"))
+      if (innerhtml.contentEquals("Zoom"))
 		{
 			options.click();
 			Thread.sleep(4000);
@@ -63,7 +67,7 @@ WebDriver driver;
   	  
 	}
 	
-	public void Verify_Company_In_SideBar()
+	public void Verify_Company_In_SideBar() throws InterruptedException
 	{
 		
 		List<WebElement> items = driver.findElements(By.xpath("//body/div[@id='root']/div/div/div/div/ul[2]/div"));
@@ -71,20 +75,59 @@ WebDriver driver;
 		for (int a=0;a<items.size();a++)
 	  	  {
 			
-			 int b = items.size();
+			// int b = items.size();
 			
 			 WebElement options = items.get(a);
-			  	
+			 
+			 // For scrolling companies in side bar.
+			 Actions action = new Actions(driver); 
+			 action. moveToElement(options). perform();
+			 
 		  	  String innerhtml = options.getText();
-		  	  
-		  	  if (a == b-1 && innerhtml == "Android")
+		  	  		  	  
+		  	  // Verifying the last company of the side menu
+		  	  if (a == items.size()-1 && innerhtml.contentEquals("Zoom"))
 		  	  {
+		  		  Thread.sleep(2000);
 		  		  String Actual_Result = innerhtml;
-		  		  String Expected_Result = "Android";
+		  		  String Expected_Result = "Zoom";
 		  		  
-		  		  Assert.assertEquals(Expected_Result, Actual_Result);
+		  		Assert.assertEquals(Expected_Result, Actual_Result);
 		  	  }
 	  	  }
 		
+	}
+	
+	public void Verify_Company_In_Company_Dropdown() throws InterruptedException
+	{
+		
+		JavascriptExecutor executor = (JavascriptExecutor)driver;
+		executor.executeScript("arguments[0].click();", Companies_dropdown);
+		
+		List <WebElement> items = driver.findElements(By.xpath("/html[1]/body[1]/div[3]/div[3]/ul[1]/li"));
+		 
+		 for (int i =0 ; i<items.size() ;i++)
+		 {
+		
+			 WebElement options = items.get(i);
+		
+		  // For scrolling companies in company drop down.
+		     Actions action = new Actions(driver); 
+		     action. moveToElement(options). perform();
+			  	
+		  	 String innerhtml = options.getText();
+		  	 
+		  	 if (i == items.size()-1 && innerhtml.contentEquals("Zoom"))
+		  	  {
+		  		  Thread.sleep(2000);
+		  		  String Actual_Result = innerhtml;
+		  		  String Expected_Result = "Zoom";
+		  		  
+		  		Assert.assertEquals(Expected_Result, Actual_Result);
+		  	  }
+		 }
+		 //To close companies drop down
+		 Actions action = new Actions(driver);
+	     action.moveToElement(Companies_dropdown).click().perform();
 	}
 }

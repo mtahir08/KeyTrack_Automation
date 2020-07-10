@@ -9,6 +9,8 @@
           <include name="teardown"/>
           <include name="CreateUsers"/>
           <include name="setUpSuite"/>
+          <include name="VerifyingDropdowns"/>
+          <include name="CreateCompanies"/>
         </methods>
       </class> <!-- com.Keytrack.testcases.SmokeTestKeytrack -->
     </classes>

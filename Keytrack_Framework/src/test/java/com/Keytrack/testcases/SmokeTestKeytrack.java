@@ -48,6 +48,7 @@ public class SmokeTestKeytrack extends BaseClass {
 		
 		addcompany.AddingCompany();
 		addcompany.Verify_Company_In_SideBar();
+		addcompany.Verify_Company_In_Company_Dropdown();
         	    
      }
 	
