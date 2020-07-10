@@ -47,6 +47,7 @@ public class SmokeTestKeytrack extends BaseClass {
 		AddCompanies addcompany = PageFactory.initElements(driver, AddCompanies.class);
 		
 		addcompany.AddingCompany();
+		addcompany.Verify_Company_In_SideBar();
         	    
      }
 	

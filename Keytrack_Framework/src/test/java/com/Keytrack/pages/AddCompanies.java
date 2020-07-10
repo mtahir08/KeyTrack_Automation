@@ -28,7 +28,7 @@ WebDriver driver;
 	{
 	  Add_Companies_Button.click();
 	  
-	  Companies_Searchbox.sendKeys("Microsoft");
+	  Companies_Searchbox.sendKeys("Android");
 	  
 	  Thread.sleep(3000);
 	  
@@ -43,7 +43,7 @@ WebDriver driver;
   	
       System.out.println(innerhtml);
       
-      if (innerhtml.contentEquals("Microsoft"))
+      if (innerhtml.contentEquals("Android"))
 		{
 			options.click();
 			Thread.sleep(4000);
@@ -61,5 +61,30 @@ WebDriver driver;
   	  
   	 // Assert.assertEquals(expected_message, actual_message);
   	  
+	}
+	
+	public void Verify_Company_In_SideBar()
+	{
+		
+		List<WebElement> items = driver.findElements(By.xpath("//body/div[@id='root']/div/div/div/div/ul[2]/div"));
+		
+		for (int a=0;a<items.size();a++)
+	  	  {
+			
+			 int b = items.size();
+			
+			 WebElement options = items.get(a);
+			  	
+		  	  String innerhtml = options.getText();
+		  	  
+		  	  if (a == b-1 && innerhtml == "Android")
+		  	  {
+		  		  String Actual_Result = innerhtml;
+		  		  String Expected_Result = "Android";
+		  		  
+		  		  Assert.assertEquals(Expected_Result, Actual_Result);
+		  	  }
+	  	  }
+		
 	}
 }
